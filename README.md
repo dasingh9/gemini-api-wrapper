@@ -134,7 +134,7 @@ export default router;
 import GeminiDao from '../dao/GeminiDao.js';
 
 export default class GeminiController {
-  async generateContent(req, res) {
+  async generateContent(req, res, next) {
     const { prompt } = req.body;
     const dao = new GeminiDao();
     try {
@@ -145,8 +145,9 @@ export default class GeminiController {
       const result = await dao.callGeminiAPI(prompt);
       res.status(200).json({ content: result });
     } catch (error) {
-	  // TODO: Use a global error handler to handle the request
-      res.status(500).json({ error: 'Failed to fetch content from Gemini' }); // once you have your global error hanler, you can remove this line
+	  // TODO: Implement a global error handler to handle the request
+      // once you have your global error hanler, you can replace the line below with `next(error)`
+      res.status(500).json({ error: 'Failed to fetch content from Gemini' });
     }
   }
 }
